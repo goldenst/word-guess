@@ -7,27 +7,21 @@ var gussedLetters = [];
 var userGuess = " ";
 var underScore = [];
 
-function newWord () {
-  
-}
+
 
 // clear array function
 function empty () {
   gussedLetters = [];
 }
 
-// get word from array
-var getWord = words[Math.floor(Math.random () * words.length)];
-// get underscores for gamegf
-var getUnder = function () {
+var genUnder = function () {
   for (i = 0; i < getWord.length; i++) {
     underScore.push('_')
   }
   return underScore;
 }
-console.log(getUnder());
-
-// Get user input
+// get word from array
+var getWord = words[Math.floor(Math.random () * words.length)];
 document.onkeyup = function () {
   var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
   // push user guess to aray
@@ -41,7 +35,6 @@ document.onkeyup = function () {
     losses ++
     // call clear out array
     empty()
-    newWord()
   }
   
   if( gussedLetters == getWord ) {
@@ -49,9 +42,13 @@ document.onkeyup = function () {
     wins ++;
     guessesLeft = 12;
     empty()
-    newWord()
   }
    
+  var getUnderscore = function() {
+    for (i = 0; i < getWord.length; i++) {
+      underScore.push('_')
+    }
+  }
 
 
 
@@ -60,7 +57,7 @@ document.onkeyup = function () {
 
   var html = "<p>Guess The Prase Above</p>" +
   "<p>Word in aray: " + words + "</p>" +
-  "<p>Word to guess: " +  underScore + "</p>" +
+  "<p>Word to guess: " + getWord + underScore + "</p>" +
   "<p>Wins: " + wins + "</p>" +
   "<p>Loses: " + losses + "</p>" +
   "<p>Guesses Left: " + guessesLeft + "</p>" +
@@ -68,8 +65,7 @@ document.onkeyup = function () {
 
   document.querySelector("#word").innerHTML = html;
  // logs to screen for testing 
-  
- 
+  console.log(underScore);
   console.log(gussedLetters);
   console.log(getWord)
   console.log("User Guess: " + userGuess);
