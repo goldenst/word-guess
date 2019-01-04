@@ -1,5 +1,7 @@
 // game variables 
-var words = ["willie", "garth", "toby", "alabama", "sugarland"];
+var words = ["hagar", "garth", "toby", "alabama", "sugarland"];
+var hint = ["He is a highway man", "He has Friends in low places", "toby", "Sweet Home", "Bigger"];
+var song = [];
 var losses = 0;
 var wins = 0;
 var guessesLeft = 12;
@@ -8,25 +10,27 @@ var userGuess = " ";
 var underScore = [];
 var correctLetter =[];
 var wrongLetter = [];
+var getRan = Math.floor(Math.random() * words.length);
+var getWord = words[getRan];
+
+console.log("get Word: " + getWord);
 
 function newWord() {
 
-}
+};
+// create underscores for dom dislpay
+var getUnder = function () {
+  for (i = 0; i < getWord.length; i++) {
+    underScore.push('__')
+  };
+  return underScore;
+};
+ getUnder();
+
 // clear array function
 function empty() {
   gussedLetters = [];
-}
-// get word from array
-var getWord = words[Math.floor(Math.random() * words.length)];
-// get underscores for gamegf
-var getUnder = function () {
-  for (i = 0; i < getWord.length; i++) {
-    underScore.push('_')
-  }
-  return underScore;
-}
-console.log(getUnder());
-
+};
 
 // Get user input
 document.onkeyup = function (event) {
@@ -38,35 +42,43 @@ document.onkeyup = function (event) {
     guessesLeft = 12;
     // increase losses
     losses++
-    // call clear out array
+    // call clear out gueese letters array
     empty()
     // call new word
     newWord()
-  }
+  };
   
+  // push user guess into proper array
   if (getWord.indexOf(userGuess) > -1){
     correctLetter.push(userGuess);
     for (var i = 0; i < getWord.length; i++) {
       if(getWord[i] === userGuess) {
-        underScore[i] = userGuess;
-        console.log(underScore);
-      }
-    }
+        underScore[i] = userGuess;  
+      };
+    };
   } else {
-    guessesLeft--
-    wrongLetter.push(userGuess)
-  }
-
+      wrongLetter.push(userGuess)
+      // decrease user gueses left
+      guessesLeft--
+  };
+  
   // if user wins game
-  if (underScore == getWord) {
+  if (correctLetter.length === getWord.length) {
     alert('winner')
+    // increment wins 
     wins++;
+    // reset guesses left
     guessesLeft = 12;
-    empty()
-    newWord()
-  }
+    winGame();
+   // empty guessed letters array
+    empty();
 
-  var html = "<p>Guess The Prase Below</p>" +
+    newWord();
+  };
+
+// ======================= html body =============================================================
+  var html = "<p>Guess The Artist Below</p>" +
+    "<p>Hint: " + hint[getRan] + "</p>" + 
     "<p>Word to guess: " + underScore + "</p>" +
     "<p>Wins: " + wins + "</p>" +
     "<p>Loses: " + losses + "</p>" +
@@ -74,16 +86,45 @@ document.onkeyup = function (event) {
     "<p>Letters Gussed: " + gussedLetters + "</p>";
 
   document.querySelector("#word").innerHTML = html;
-  // logs to screen for testing 
 
 
+// =============  puts iframe in dom ========================
+// display music video when user wins  
+
+ function winGame () {
+
+  var iframe = document.createElement('iframe');
+
+  document.body.appendChild(iframe);
+
+  iframe.src = 'javascript:void((function(){var script = document.createElement(\'script\');' +
+    'script.innerHTML = "(function() {' +
+    'document.open();document.domain=\'' + document.domain +
+    '\';document.close();})();";' +
+    'document.write("<head>" + script.outerHTML + "</head><body></body>");})())';
   
-  console.log("Guessed letters: " + gussedLetters);
-  console.log("Correect letter: " + correctLetter);
-  console.log("Wrong letter: " + wrongLetter);
-  console.log(getWord);
-  console.log("User Guess: " + userGuess);
-  console.log("guesses Left: " + guessesLeft + " Wins: " + wins + " Losses: " + losses)
+  iframe.contentWindow.document.write('https://youtu.be/ldQrapQ4d0Y');
+};
+
+
+ 
+
+  // ============================ logs to screen for testing ================================== 
+
+  //console.log(randNum);
+  //console.log(hint[randNum]);
+  // console.log("Guessed letters: " + gussedLetters);
+  // console.log("Correect letter: " + correctLetter);
+  // console.log("Wrong letter: " + wrongLetter);
+  //console.log(getWord);
+  // console.log("User Guess: " + userGuess);
+  // console.log("guesses Left: " + guessesLeft + " Wins: " + wins + " Losses: " + losses)
 }
 
-//console.log(gussesLetters);
+// ============================  problems / issues =================================
+
+//  reset game after win or loose
+//  bugs  does not alert or show win for words with multipule same letters
+// iframe displays for every key press
+// play song after win 
+// can guess letter more than once
