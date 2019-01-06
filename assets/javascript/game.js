@@ -1,5 +1,5 @@
 // game variables 
-var words = ["hagar", "garth", "toby", "alabama", "sugarland"];
+var words = ["Willie", "garth", "toby", "alabama", "sugarland"];
 var hint = ["He is a highway man", "He has Friends in low places", "toby", "Sweet Home", "Bigger"];
 var song = [];
 var losses = 0;
@@ -15,8 +15,8 @@ var getWord = words[getRan];
 
 console.log("get Word: " + getWord);
 
-function newWord() {
-
+ function newWord() {
+   
 };
 // create underscores for dom dislpay
 var getUnder = function () {
@@ -128,3 +128,4 @@ document.onkeyup = function (event) {
 // iframe displays for every key press
 // play song after win 
 // can guess letter more than once
+// remove commas from underscores
